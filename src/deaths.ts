@@ -36,7 +36,7 @@ export async function getCharacterDeaths(auth: WCLBearer, page: number, characte
     const query = `
     {
         characterData {
-            character(name: ${character.name}, serverSlug: ${character.server}, serverRegion: ${character.region}) {
+            character(name: "${character.name}", serverSlug: "${character.server}", serverRegion: "${character.region}") {
                 name
                 recentReports(limit: 1, page: ${page}) {
                     has_more_pages

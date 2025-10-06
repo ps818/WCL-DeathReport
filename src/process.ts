@@ -41,13 +41,19 @@ export async function processGuildData(auth: WCLBearer, guildId: number, page: n
 }
 
 export async function processCharacterData(auth: WCLBearer, character: Character, page: number = 1, accumulated: ProcessPlayerDeaths = {}): Promise<ProcessPlayerDeaths> {
-    debugLog(`Calling getFights(page=${page})`);
+    debugLog(`Calling getCharacterFights(page=${page})`);
     const fights: CharacterFightReport = await getCharacterFights(auth, page, character);
-    debugLog(`Received ${fights.data.fights.length ?? 0} fights on page ${page}`);
-    if ((!fights.data || fights.data.fights.length === 0) && fights.has_more_pages && fights.data.zone.id === config.zoneId) return processCharacterData(auth, character, page + 1, accumulated);
-    else if (fights.data.zone.id !== config.zoneId || ((!fights.data || fights.data.fights.length === 0) && !fights.has_more_pages)) return accumulated;
+    debugLog(`Received ${fights.data[0].fights.length ?? 0} fights on page ${page}`);
+    if ((!fights.data || fights.data[0].fights.length === 0) 
+        && fights.has_more_pages &&
+        (fights.data[0].zone.id === config.zoneId || fights.data[0].zone.difficulties[0].id === 10)) {
+            return processCharacterData(auth, character, page + 1, accumulated);
+        }
+    else if (fights.data[0].zone.id !== config.zoneId || ((!fights.data || fights.data[0].fights.length === 0) && !fights.has_more_pages)) return accumulated;
     const deaths: deathEntry[] = await getCharacterDeaths(auth, page, character);
+    debugLog(`Received ${deaths.length ?? 0} deaths on page ${page}`);
     const players: PlayerDetails[] = await getCharacterPlayers(auth, page, character);
+    debugLog(`Received ${players.length ?? 0} players on page ${page}`);
 
     if (!accumulated[character.name]) accumulated[character.name] = { deaths: 0, fights: 0, percent: 0 };
 
@@ -56,7 +62,7 @@ export async function processCharacterData(auth: WCLBearer, character: Character
         playerMap.set(p.id, p.name);
     }
 
-    for (const fight of fights.data.fights) {
+    for (const fight of fights.data[0].fights) {
         for (const pid of fight.friendlyPlayers) {
             const name = playerMap.get(pid);
             if (!name || name !== character.name) continue;

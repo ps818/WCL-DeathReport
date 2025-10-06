@@ -29,11 +29,16 @@ export type CharacterFightReport = {
     current_page: number,
     data: {
         zone: {
-            id: number
+            id: number,
+            difficulties: Difficulty[]
         },
         fights: FightDetail[]
-    }
+    }[]
 };
+
+type Difficulty = {
+    id: number
+}
 
 export type Character = {
     name: string,

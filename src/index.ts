@@ -1,4 +1,4 @@
-import { CommandsRegistry, handlerGuild, registerCommand, runCommand } from "./commands.js";
+import { CommandsRegistry, handlerCharacter, handlerGuild, registerCommand, runCommand } from "./commands.js";
 
 
 async function main() {
@@ -11,6 +11,7 @@ async function main() {
     const registry: CommandsRegistry = {};
 
     registerCommand(registry, "guild", handlerGuild);
+    registerCommand(registry, "character", handlerCharacter);
 
     try {
         await runCommand(registry, cmdName, ...cmdArgs);

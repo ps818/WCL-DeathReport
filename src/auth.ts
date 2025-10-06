@@ -21,7 +21,6 @@ export async function authOauth(config: WCLConfig): Promise<WCLBearer> {
     }
     saveToken(raw);
     return raw;
-    //console.log(`Response: ${JSON.stringify(raw, null, 2)}`);
 }
 
 function saveToken(token: WCLBearer) {
@@ -37,17 +36,6 @@ function loadToken(): WCLBearer | null {
         if (data.expires_in > Date.now()) return data;
     } catch {}
     return null;
-}
-
-async function logResponse(res: Response) {
-    console.log(`status: ${res.status}`);
-    console.log(`ok: ${res.ok}`);
-    console.log(`headers: ${Object.fromEntries(res.headers)}`);
-    try {
-        console.log(`body: ${await res.json()}`);
-    } catch {
-        console.log(`body: ${await res.text()}`);
-    }
 }
 
 function isWCLBearer(obj: any): obj is WCLBearer {

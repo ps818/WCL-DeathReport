@@ -1,21 +1,20 @@
 import { authOauth } from "./auth.js";
 import { config } from "./config.js";
-import { processGuildData } from "./process.js";
-import { ProcessPlayerDeaths, WCLBearer } from "./types";
+import { processCharacterData, processGuildData } from "./process.js";
+import { Character, ProcessPlayerDeaths, WCLBearer } from "./types";
 
 export type CommandHandler = (cmdName: string, ...args: string[]) => Promise<void>;
 export type CommandsRegistry = Record<string, CommandHandler>;
 
-export async function handlerGuild(cmdName: string, ...args: string[]) {
+export async function handlerGuild(cmdName: string, ...args: string[]): Promise<void> {
     if (args.length !== 1) throw new Error(`usage: ${cmdName} <guildID>\nYou can get this information from warcraftlogs.com`);
     const guildId: number = parseInt(args[0]);
     try {
         const auth: WCLBearer = await authOauth(config);
-        console.log(JSON.stringify(auth, null, 2));
         const accumulated: ProcessPlayerDeaths = await processGuildData(auth, guildId);
         for (const name in accumulated) {
             const stats = accumulated[name];
-            stats.percent = parseFloat((stats.fights > 0 ? stats.deaths / stats.fights : 0).toFixed(2));
+            stats.percent = parseFloat((stats.fights > 0 ? stats.deaths / stats.fights : 0).toFixed(3));
         }
         console.log(customJsonFormat(accumulated));
         process.exit(0);
@@ -25,7 +24,25 @@ export async function handlerGuild(cmdName: string, ...args: string[]) {
     }
 }
 
-export async function handlerCharacter
+export async function handlerCharacter(cmdName: string, ...args: string[]): Promise<void> {
+    if (args.length !== 3) throw new Error(`usage: ${cmdName} <characterName> <characterServer> <characterRegion>\nserver should not include special characters: malganis instead of mal'ganis for example\nregion should be us, eu, kr, tw, or cn`);
+    const character: Character = {
+        name: String(args[0]),
+        server: String(args[1]),
+        region: String(args[2])
+    }
+    try {
+        const auth: WCLBearer = await authOauth(config);
+        const accumulated: ProcessPlayerDeaths = await processCharacterData(auth, character);
+        for (const name in accumulated) {
+            const stats = accumulated[name];
+            stats.percent = parseFloat((stats.fights > 0 ? stats.deaths / stats.fights : 0).toFixed(3));
+        }
+        console.log(customJsonFormat(accumulated));
+    } catch (e: any) {
+        console.log(e.message || String(e));
+    }
+}
 
 export async function registerCommand(registry: CommandsRegistry, cmdName: string, handler: CommandHandler) {
     if (registry[cmdName]) throw new Error(`command already registered: ${cmdName}`);

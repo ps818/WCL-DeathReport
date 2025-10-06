@@ -38,7 +38,7 @@ export async function getCharacterFights(auth: WCLBearer, page: number, characte
     const query = `
     {
         characterData {
-            character(name: ${character.name}, serverSlug: ${character.server}, serverRegion: ${character.region}) {
+            character(name: "${character.name}", serverSlug: "${character.server}", serverRegion: "${character.region}") {
                 name
                 recentReports(limit: 1, page: ${page}) {
                     has_more_pages
@@ -47,6 +47,9 @@ export async function getCharacterFights(auth: WCLBearer, page: number, characte
                     data {
                         zone {
                             id
+                            difficulties {
+                                id
+                            }
                         }
                         fights(difficulty: 5, killType: Encounters) {
                             id
@@ -67,7 +70,6 @@ export async function getCharacterFights(auth: WCLBearer, page: number, characte
         },
         body: JSON.stringify({ query })
     });
-
     const json: CharacterData = await result.json();
     const fightreport: CharacterFightReport = json.data.characterData.character.recentReports;
     return fightreport;

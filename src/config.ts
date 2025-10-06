@@ -9,7 +9,6 @@ export const DEBUG = process.env.DEBUG;
 export function envOrThrow(): WCLConfig {
     if (!process.env.CLIENT_SECRET ||
         !process.env.CLIENT_ID ||
-        !process.env.GUILD_ID ||
         !process.env.ZONE_ID ||
         !process.env.DIFFICULTY ||
         !process.env.WIPE_CUT_OFF
