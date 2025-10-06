@@ -11,12 +11,14 @@ Use this as another tool in your arsenal of evaluating players.
 
 `npm run start character <name> <server> <region>` - This will get death reports for the `ZONE_ID` and `DIFFICULTY` set in the `.env` file for the provided character. `server` must not use any special characters. `region` must be one of `us`, `eu`, `tw`, `kr`, OR `cn`. For example: `npm run start character Yugopriest malganis us`.
 
+**NOTE**: After running the app the first time, you should see a `.token.json` get created. This holds your secret token for interacting with the Warcraft Logs API. **DO NOT** share this with anyone!
+
 ### Set the .env file
 
 I'd personally start by just renaming `.env.example` to `.env`. This will use the default settings of the app.
 
 You will need to obtain an API key from https://www.warcraftlogs.com/api/clients/
-. This is free to do once you have a Warcraft Logs account. Change the `CLIENT_ID` and `CLIENT_SECRET` values of the `.env` file to reflect the values you got from when you created the Warcraft Logs API client
+. This is free to do once you have a Warcraft Logs account. Change the `CLIENT_ID` and `CLIENT_SECRET` values of the `.env` file to reflect the values you got from when you created the Warcraft Logs API client. **DO NOT** share these keys with anyone!
 
 The default settings of the app are to check for Mythic logs only (difficulty = 5), in Manaforge Omega (zoneId = 44), with a wipe cut off of 3 deaths (wipeCutoff = 3). You are welcome to change any of these values by editing the `.env` file. If the app is a little to noisy for your terminal window, you can likewise set `DEBUG` to `"false"` or just remove that line entirely.
 
