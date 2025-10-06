@@ -27,13 +27,13 @@ I only ran this on [WSL (Windows Subsystem for Linux)](https://learn.microsoft.c
 1. Download and install `nvm-setup.exe` from [nvm-windows](https://github.com/coreybutler/nvm-windows/releases). Don't bother with the end option to "open powershell with nvm". It doesn't work.
 2. Open powershell (win+s, type "powershell", press enter)
 3. enter the command `nvm install 24`
-  - This will install the latest NodeJS v24
+    1. This will install the latest NodeJS v24
 4. enter the command `nvm use 24`
-  - This will tell the system to use this version of nodeJS when running the program
-  - You will have to run this command each time you start up powershell to run this app
+    1. This will tell the system to use this version of nodeJS when running the program
+    2. You will have to run this command each time you start up powershell to run this app
 5. enter the command `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser`
-  - This lets us run the untrusted (by Windows) script on a non-admin powershell
-  - You will have to run this command each time you start up powershell to run this app
+    1. This lets us run the untrusted (by Windows) script on a non-admin powershell
+    2. You will have to run this command each time you start up powershell to run this app
 6. make sure you're in the correct folder where you downloaded/extracted the WCL-DeathReport code. For example: `cd C:\Users\ps818\Downloads\WCL-DeathReport`
 7. build the app: `npm run build`
 8. run the app: `npm run start <command> <...args>`
