@@ -5,6 +5,10 @@ to see how often a player contributes to the first x deaths of a pull.
 
 Use this as another tool in your arsenal of evaluating players.
 
+## Motivation
+
+There doesn't seem to be an automated tool for getting average deaths across attempts, which seems like something you'd want to have if you were looking at applicants to a guild.
+
 ## Usage
 
 `npm run start guild <guildId>` - This will get death reports for the `ZONE_ID` and `DIFFICULTY` set in the `.env` file for all the guild reports of the provided guild ID. This will only get logs that are uploaded to a guild report. If you are using personal logs, this will NOT work. You can get your `guildId` from the warcraftlogs.com website. For example, here is [God I Miss Her - Mal'Ganis](https://www.warcraftlogs.com/guild/id/571322). NOTE: the guild ID is 571322 based on the URL of the guild in Warcraft Logs. An example of how to run this command: `npm run start guild 571322`
@@ -12,6 +16,8 @@ Use this as another tool in your arsenal of evaluating players.
 `npm run start character <name> <server> <region>` - This will get death reports for the `ZONE_ID` and `DIFFICULTY` set in the `.env` file for the provided character. `server` must not use any special characters. `region` must be one of `us`, `eu`, `tw`, `kr`, OR `cn`. For example: `npm run start character Yugopriest malganis us`.
 
 **NOTE**: After running the app the first time, you should see a `.token.json` get created. This holds your secret token for interacting with the Warcraft Logs API. **DO NOT** share this with anyone!
+
+## Quick Start
 
 ### Set the .env file
 
@@ -21,6 +27,8 @@ You will need to obtain an API key from https://www.warcraftlogs.com/api/clients
 . This is free to do once you have a Warcraft Logs account. Change the `CLIENT_ID` and `CLIENT_SECRET` values of the `.env` file to reflect the values you got from when you created the Warcraft Logs API client. **DO NOT** share these keys with anyone!
 
 The default settings of the app are to check for Mythic logs only (difficulty = 5), in Manaforge Omega (zoneId = 44), with a wipe cut off of 3 deaths (wipeCutoff = 3). You are welcome to change any of these values by editing the `.env` file. If the app is a little to noisy for your terminal window, you can likewise set `DEBUG` to `"false"` or just remove that line entirely.
+
+### Installation
 
 #### Windows
 
@@ -48,3 +56,7 @@ I only ran this on [WSL (Windows Subsystem for Linux)](https://learn.microsoft.c
 4. use Node v24: `nvm use`
 5. build the app: `npm run build`
 6. run the app: `npm run start <command> <...args>`
+
+## Contributing
+
+Just make an issue if you have a problem. It's a small project, and I can probably fix whatever the problem is in an hour or so.
